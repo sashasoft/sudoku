@@ -1,4 +1,3 @@
 sudoku
 ======
-dds
 my sudoku
