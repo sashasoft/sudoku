@@ -63,13 +63,17 @@ Array.prototype.shuffleCol = function() {
 };
 //выводит таблицу импутов со значениями из массива
 function showInputValue(table) {
+  var inputId = 0;
   for(var i = 0; i < SIZE; i++) {
+    //inputId++;
     var div = document.createElement('div');
     div.id = i;
     for(var x = 0; x < SIZE; x++) {
       var inp = document.createElement('input');
       inp.type = "text";
       inp.size = "1";
+      inp.id = inputId;
+      inputId++;
       //блокирует возможность редактирования
       if(table[i][x] != "")
         inp.setAttribute("readonly", true);
@@ -103,17 +107,39 @@ Array.prototype.clearCell = function(n) {
     do {
         x = generateInteger(0, 8);
         y = generateInteger(0, 8);
-      } while(x == y || this[x][y] == "")
+      } while(this[x][y] == "")
     this[x][y] = "";
   }
 };
 
+function getPosition(n) {
+  var temp = n;
+  var ij = [0, 0];
+  var i = 0;
+  var j = 0;
+  while(temp >= SIZE) {
+    i++;
+    temp -= SIZE;
+  }
+  j = temp;
+  ij[0] = i;
+  ij[1] = j;
+  return ij;
+};
+
+
+
 var SIZE = 9;
-function SudocuTable() {
-  //создаем двумерный массив
-  var table = new Array(SIZE);
+var table = new Array(SIZE);
   for(var k = 0; k < table.length; k++)
     table[k] = new Array(SIZE);
+var table2 = new Array(SIZE);
+  for(var k = 0; k < table2.length; k++)
+    table2[k] = new Array(SIZE);
+    
+    
+function SudocuTable() {
+  
     
   //заполняем массив по правилам судоку
   fillArray(table);
@@ -133,9 +159,34 @@ function SudocuTable() {
   table.shuffleRow();
   
   //отображаем готовое судоку
-  //showInputValue(table);
+    
+  for(var i = 0; i < SIZE; i++)
+    for(var j = 0; j < SIZE; j++)
+      table2[i][j] = table[i][j];
+      
+  //выбираем сколько клеток очистить   
+  table2.clearCell(2);
   
-  var table2 = table;
-  table2.clearCell(40);
   showInputValue(table2);
+  
+};
+
+function verification() {
+  var inputs = document.getElementsByTagName('input');
+  var ij = [];
+  alert("Произвести проверку?");
+  var i = 0;
+  while(i < 81) {
+    ij = getPosition(i);
+    table2[ij[0]][ij[1]] = inputs[i].value;
+    i++;
+  }
+  if(table.toString() == table2.toString())
+    alert("Выигрыш!");
+  else
+    alert("Проигрыш!");
+};
+
+function generate() {
+  location.reload();
 };
