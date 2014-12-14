@@ -127,8 +127,6 @@ function getPosition(n) {
   return ij;
 };
 
-
-
 var SIZE = 9;
 var table = new Array(SIZE);
   for(var k = 0; k < table.length; k++)
@@ -140,12 +138,9 @@ var table2 = new Array(SIZE);
     
 function SudocuTable() {
   
-    
   //заполняем массив по правилам судоку
   fillArray(table);
     
-  //showInputValue(table);
-  
   // мешаем, мешаем, мешаем...  
   table.shuffleCol();
   table.shuffleRow();
@@ -166,7 +161,6 @@ function SudocuTable() {
       
   //выбираем сколько клеток очистить   
   table2.clearCell(2);
-  
   showInputValue(table2);
   
 };
